@@ -1,15 +1,70 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "HeliumIOTPlatform",
   "pluginType": "platform",
   "singular": true,
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
+      "api_key": {
+        "title": "API Key",
         "type": "string",
+        "required": true
+      },
+      "refresh_duration": {
+        "title": "Refresh Duration",
+        "type": "number",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": 300,
+        "description": "The time in seconds that the latest device status is pulled"
+      },
+      "devices": {
+        "title": "Devices",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string",
+              "required": true
+            },
+            "type": {
+              "title": "Device Type",
+              "type": "string",
+              "default": "form",
+              "oneOf": [{ "title": "Browan - Ambient Light Sensor", "enum": ["BROWAN_AMBIENT_LIGHT_SENSOR"] }],
+              "required": true
+            },
+            "device_id": {
+              "title": "Device ID",
+              "type": "string",
+              "required": true
+            },
+            "manufacturer": {
+              "title": "Manufacturer",
+              "type": "string",
+              "required": true
+            },
+            "port": {
+              "title": "Port",
+              "type": "number",
+              "required": true,
+              "default": 104
+            },
+            "serial_number": {
+              "title": "Serial Number",
+              "type": "string",
+              "required": true,
+              "default": "Serial"
+            },
+            "model": {
+              "title": "Model",
+              "type": "string",
+              "required": true,
+              "default": "Model"
+            }
+          }
+        }
       }
     }
   }
