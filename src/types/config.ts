@@ -1,4 +1,4 @@
-import { DeviceType } from './device_type';
+import { DeviceType } from '../DeviceType';
 
 export type DeviceConfig = {
   type: DeviceType;

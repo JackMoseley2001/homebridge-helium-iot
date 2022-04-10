@@ -7,10 +7,10 @@ import {
   PlatformConfig,
   Service,
 } from 'homebridge';
-import { DeviceConfig, DeviceType, HeliumAccessoryContext, PluginConfig } from './types';
+import { DeviceConfig, HeliumAccessoryContext, PluginConfig } from './types';
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 
-import { BrowanAmbientLightSensorAccessory } from './Accessories';
+import { createDevice } from './DeviceType';
 
 export class HeliumIOTPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
@@ -62,7 +62,7 @@ export class HeliumIOTPlatform implements DynamicPlatformPlugin {
 
       if (existingAccessory) {
         this.log.info('Restoring existing accessory from cache:', existingAccessory.context.device.name);
-        this.createDevice(existingAccessory.context.device.type, existingAccessory);
+        createDevice(existingAccessory.context.device.type, this, existingAccessory, this.log);
       } else {
         this.log.info('Adding new accessory:', device.name);
 
@@ -70,20 +70,9 @@ export class HeliumIOTPlatform implements DynamicPlatformPlugin {
 
         accessory.context.device = device;
 
-        this.createDevice(device.type, accessory);
+        createDevice(device.type, this, accessory, this.log);
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
-    }
-  }
-
-  private createDevice(type: DeviceType, accessory: PlatformAccessory<HeliumAccessoryContext>) {
-    this.log.info(`Creating device for type: ${type.toString()}`);
-    switch (type) {
-      case DeviceType.BROWAN_AMBIENT_LIGHT_SENSOR:
-        new BrowanAmbientLightSensorAccessory(this, accessory);
-        break;
-      default:
-        this.log.info('Device type not found');
     }
   }
 }

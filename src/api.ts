@@ -3,6 +3,10 @@ import { DeviceConfig, HeliumEvent, HeliumEventCategory, HeliumEventData } from 
 import { CONSOLE_API_URL } from './settings';
 import axios from 'axios';
 
+type JSONObject = {
+  [key: string]: unknown;
+};
+
 export async function fetchLatestEvent(device: DeviceConfig, apiKey: string): Promise<HeliumEvent | null> {
   const headers = {
     Key: apiKey,
@@ -17,15 +21,14 @@ export async function fetchLatestEvent(device: DeviceConfig, apiKey: string): Pr
     throw new Error('Failed to fetch latest event');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const json = response.data as { [key: string]: any };
+  const json = response.data as JSONObject[];
 
   const events: HeliumEvent[] = json.map((value) => {
-    const reportedAt = parseInt(value['reported_at']);
+    const reportedAt = parseInt(value['reported_at'] as string);
 
     return {
-      category: getEventCategory(value['category']),
-      data: getEventData(value['data']),
+      category: getEventCategory(value['category'] as string),
+      data: getEventData(value['data'] as JSONObject),
       reportedAt: new Date(reportedAt),
     };
   });
@@ -52,11 +55,10 @@ function getEventCategory(value: string): HeliumEventCategory {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getEventData(data: { [key: string]: any }): HeliumEventData {
-  const payload = Buffer.from(data['payload'], 'base64');
+function getEventData(data: JSONObject): HeliumEventData {
+  const payload = Buffer.from(data['payload'] as string, 'base64');
   return {
     payload: payload,
-    port: data['port'],
+    port: data['port'] as number,
   };
 }
