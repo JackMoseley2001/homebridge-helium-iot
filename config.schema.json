@@ -25,7 +25,7 @@
               "title": "Device Type",
               "type": "string",
               "default": "form",
-              "oneOf": [{ "title": "Browan - Ambient Light Sensor", "enum": ["BROWAN_AMBIENT_LIGHT_SENSOR"] }],
+              "oneOf": [{ "title": "Browan - Ambient Light Sensor", "enum": ["BROWAN_AMBIENT_LIGHT_TBAM100"] }],
               "required": true
             },
             "device_id": {
