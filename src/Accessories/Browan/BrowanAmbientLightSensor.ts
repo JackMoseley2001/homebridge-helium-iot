@@ -118,6 +118,7 @@ export class BrowanAmbientLightSensorAccessory {
   }
 
   // Gets the boolean value of the given bit
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bit(value: any, bit: any) {
     return (value & (1 << bit)) > 0;
   }

@@ -35,7 +35,7 @@ export async function fetchLatestEvent(device: DeviceConfig, apiKey: string): Pr
   }
 
   return events
-    .filter((val) => val.data.port == device.port)
+    .filter((val) => val.data.port === device.port)
     .sort((a, b) => b.reportedAt.getTime() - a.reportedAt.getTime())[0];
 }
 
