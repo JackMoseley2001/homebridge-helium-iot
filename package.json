@@ -1,16 +1,16 @@
 {
-  "private": true,
+  "private": false,
   "displayName": "Helium IOT",
   "name": "homebridge-helium-iot",
   "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "description": "A Homebridge plugin communicate between HomeKit & the Helium Network",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "https://github.com/JackMoseley2001/homebridge-helium-iot"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/JackMoseley2001/homebridge-helium-iot/issues"
   },
   "engines": {
     "node": ">=14.18.1",
