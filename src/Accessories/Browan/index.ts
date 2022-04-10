@@ -1,1 +1,1 @@
-export * from './BrowanAmbientLightSensor';
+export * from './BrowanAmbientLightTBAM100Accessory';
