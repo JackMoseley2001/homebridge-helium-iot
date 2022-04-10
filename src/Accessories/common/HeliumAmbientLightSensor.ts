@@ -8,6 +8,8 @@ export class HeliumAmbientLightSensorAccessory {
   private service: Service;
   private log: Logger;
 
+  private MIN_LUX = 0.0001;
+
   private state: { luxValue: number | null } = {
     luxValue: null,
   };
@@ -41,7 +43,7 @@ export class HeliumAmbientLightSensorAccessory {
       .onGet(this.handleCurrentAmbientLightLevelGet.bind(this));
   }
 
-  private async fetchAndUpdateLatestLux() {
+  private async fetchAndUpdateLatestLux(): Promise<number> {
     const device = this.accessory.context.device;
     this.log.info(`Updating ${device.name}`);
 
@@ -56,10 +58,15 @@ export class HeliumAmbientLightSensorAccessory {
       this.log.info(`Recieved value for ${device.name}`);
 
       const lux = this.luxDecoder(payload);
-      this.state.luxValue = lux;
-      this.service.getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel).setValue(lux);
+      this.state.luxValue = lux > this.MIN_LUX ? lux : this.MIN_LUX;
+      this.service
+        .getCharacteristic(this.platform.Characteristic.CurrentAmbientLightLevel)
+        .setValue(this.state.luxValue);
+
+      return this.state.luxValue;
     } catch (error) {
       this.log.error(`Failed to update ${device.name} - ${error}`);
+      return this.MIN_LUX;
     }
   }
 
@@ -75,9 +82,10 @@ export class HeliumAmbientLightSensorAccessory {
   async handleCurrentAmbientLightLevelGet() {
     this.log.debug('Triggered GET CurrentAmbientLightLevel');
     if (this.state.luxValue === null) {
-      await this.fetchAndUpdateLatestLux();
+      return await this.fetchAndUpdateLatestLux();
     }
 
-    return this.state.luxValue;
+    const lux = this.state.luxValue;
+    return lux > this.MIN_LUX ? lux : this.MIN_LUX;
   }
 }
