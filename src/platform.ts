@@ -27,18 +27,19 @@ export class HeliumIOTPlatform implements DynamicPlatformPlugin {
   }
 
   public getPluginConfig(): PluginConfig {
-    const devices: DeviceConfig[] = this.config.devices.map((device): DeviceConfig => {
-      return {
-        type: device.type,
-        deviceId: device.device_id,
-        port: device.port,
-        name: device.name,
-        manufacturer: device.manufacturer,
-        serialNumber: device.serial_number,
-        model: device.model,
-        refreshDuration: device.refresh_duration,
-      };
-    });
+    const devices: DeviceConfig[] =
+      this.config.devices?.map((device): DeviceConfig => {
+        return {
+          type: device.type,
+          deviceId: device.device_id,
+          port: device.port,
+          name: device.name,
+          manufacturer: device.manufacturer,
+          serialNumber: device.serial_number,
+          model: device.model,
+          refreshDuration: device.refresh_duration,
+        };
+      }) ?? [];
 
     return {
       apiKey: this.config.api_key,
