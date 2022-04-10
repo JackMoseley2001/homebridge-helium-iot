@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Helium IOT",
   "name": "homebridge-helium-iot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Homebridge plugin communicate between HomeKit & the Helium Network",
   "license": "Apache-2.0",
   "repository": {
