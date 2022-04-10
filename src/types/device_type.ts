@@ -1,0 +1,3 @@
+export enum DeviceType {
+  BROWAN_AMBIENT_LIGHT_SENSOR = 'BROWAN_AMBIENT_LIGHT_SENSOR',
+}

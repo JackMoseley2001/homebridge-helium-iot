@@ -7,12 +7,12 @@ import {
   PlatformConfig,
   Service,
 } from 'homebridge';
-import { DeviceType, HeliumAccessoryContext, PluginConfig } from './types';
+import { DeviceConfig, DeviceType, HeliumAccessoryContext, PluginConfig } from './types';
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 
 import { BrowanAmbientLightSensorAccessory } from './Accessories';
 
-export class BrowanLightSensorPlatform implements DynamicPlatformPlugin {
+export class HeliumIOTPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public readonly accessories: PlatformAccessory[] = [];
@@ -27,20 +27,22 @@ export class BrowanLightSensorPlatform implements DynamicPlatformPlugin {
   }
 
   public getPluginConfig(): PluginConfig {
+    const devices: DeviceConfig[] = this.config.devices.map((device): DeviceConfig => {
+      return {
+        type: device.type,
+        deviceId: device.device_id,
+        port: device.port,
+        name: device.name,
+        manufacturer: device.manufacturer,
+        serialNumber: device.serial_number,
+        model: device.model,
+        refreshDuration: device.refresh_duration,
+      };
+    });
+
     return {
       apiKey: this.config.api_key,
-      refreshTime: this.config.refresh_duration,
-      devices: this.config.devices.map((val) => {
-        return {
-          type: val.type,
-          deviceId: val.device_id,
-          port: val.port,
-          name: val.name,
-          manufacturer: val.manufacturer,
-          serialNumber: val.serial_number,
-          model: val.model,
-        };
-      }),
+      devices: devices,
     };
   }
 

@@ -1,6 +1,4 @@
-export enum DeviceType {
-  BROWAN_AMBIENT_LIGHT_SENSOR = 'BROWAN_AMBIENT_LIGHT_SENSOR',
-}
+import { DeviceType } from './device_type';
 
 export type DeviceConfig = {
   type: DeviceType;
@@ -10,10 +8,10 @@ export type DeviceConfig = {
   manufacturer: string;
   serialNumber: string;
   model: string;
+  refreshDuration: number;
 };
 
 export type PluginConfig = {
   apiKey: string;
-  refreshTime: number;
   devices: DeviceConfig[];
 };
